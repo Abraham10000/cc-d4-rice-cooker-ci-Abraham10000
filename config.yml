@@ -1,0 +1,26 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: mcr.microsoft.com/dotnet/sdk:5.0  # Utilisation de l'image Docker avec le SDK .NET 5.0
+
+    steps:
+      - checkout  # Récupération du code depuis GitHub
+      - run:
+          name: Install Dependencies
+          command: dotnet restore  # Installation des dépendances du projet
+
+      - run:
+          name: Build and Test
+          command: dotnet build && dotnet test  # Construction et exécution des tests
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - feature/c#  # Ne déclencher ce job que pour la branche feature/c#
